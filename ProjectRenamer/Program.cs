@@ -65,7 +65,7 @@ internal class Program
 			if (File.Exists(Path.Combine(targetPath, "UniversalHybridTemplate.sln"))) {
 				return targetPath;
 			}
-			targetPath = Path.GetDirectoryName(targetPath);
+			targetPath = Path.Combine(targetPath, "..");
 		}
 		throw new Exception("Failed to find UniversalHybridTemplate.sln");
 	}
@@ -148,7 +148,7 @@ internal class Program
 		renameFiles = [.. renameFiles.OrderByDescending(x => x.Length)];
 		renameFolders = [.. renameFolders.OrderByDescending(x => x.Length)];
 		foreach (var item in renameFiles) {
-			var start = Path.GetDirectoryName(item);
+			var start = Path.Combine(item, "..");
 			var end = item.Substring(start.Length);
 			if (end.StartsWith('/') || end.StartsWith('\\')) {
 				end = end.Remove(1);
@@ -172,7 +172,7 @@ internal class Program
 		}
 
 		foreach (var item in renameFolders) {
-			var start = Path.GetDirectoryName(item);
+			var start = Path.Combine(item, "..");
 			var end = item.Substring(start.Length);
 			if (end.StartsWith('/') || end.EndsWith('\\')) {
 				end = end.Remove(1);
