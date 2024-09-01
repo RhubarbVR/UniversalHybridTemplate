@@ -9,8 +9,9 @@ namespace ProjectRenamer;
 internal class Program
 {
 	static string _mainPath;
-
+	static ConsoleColor _color;
 	static async Task Main(string[] args) {
+		_color = Console.ForegroundColor;
 	Start:
 		Console.Clear();
 		Console.WriteLine("Rename UniversalHybridTemplate Project and all sub data!");
@@ -129,7 +130,9 @@ internal class Program
 				await File.WriteAllTextAsync(path, (await File.ReadAllTextAsync(path)).Replace(oldName, newName));
 			}
 			catch (Exception ex) {
+				Console.ForegroundColor = ConsoleColor.Red;
 				Console.WriteLine($"Failed to Do rename for {item} {ex.Message}");
+				Console.ForegroundColor = _color;
 			}
 		}
 		renameFiles = [.. renameFiles.OrderByDescending(x => x.Length)];
@@ -141,16 +144,28 @@ internal class Program
 			try {
 				File.Copy(item, newPath);
 			}
-			catch { }
+			catch (Exception ex) {
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine($"Failed to Do Copy for {item} {ex.Message}");
+				Console.ForegroundColor = _color;
+
+			}
 		}
 		foreach (var item in renameFolders) {
 			var start = Path.GetDirectoryName(item);
-			var end = item.Substring(start.Length + 1);
+			var end = item.Substring(start.Length);
+			if (end.StartsWith('/') || end.EndsWith('\\')) {
+				end = end.Remove(1);
+			}
 			var newPath = Path.Combine(start, end.Replace(oldName, newName));
 			try {
 				Directory.Move(item, newPath);
 			}
-			catch { }
+			catch (Exception ex) {
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine($"Failed to Do Move for {item} {ex.Message}");
+				Console.ForegroundColor = _color;
+			}
 		}
 	}
 
