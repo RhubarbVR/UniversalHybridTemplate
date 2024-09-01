@@ -87,7 +87,7 @@ internal class Program
 			}
 		}
 		foreach (var folder in Directory.GetDirectories(currentDir)) {
-			LoadAllFilesFolders(baseDir, folder, onlyWith, allFiles, renameFiles, renameFolders);
+			LoadAllFilesFolders(baseDir, Path.GetFullPath(folder), onlyWith, allFiles, renameFiles, renameFolders);
 			var partFolder = Path.GetRelativePath(Path.GetFullPath(baseDir), Path.GetFullPath(folder));
 			if (Path.GetFileName(partFolder).Contains(onlyWith)) {
 				renameFolders.Add(partFolder);
@@ -121,7 +121,7 @@ internal class Program
 		var allFiles = new List<string>();
 		var renameFiles = new List<string>();
 		var renameFolders = new List<string>();
-		LoadAllFilesFolders(_mainPath, _mainPath, oldName, allFiles, renameFiles, renameFolders);
+		LoadAllFilesFolders(Path.GetFullPath(_mainPath), Path.GetFullPath(_mainPath), oldName, allFiles, renameFiles, renameFolders);
 
 		foreach (var item in allFiles) {
 			try {
@@ -162,6 +162,7 @@ internal class Program
 
 			}
 		}
+
 		foreach (var item in renameFolders) {
 			var start = Path.GetDirectoryName(item);
 			var end = item.Substring(start.Length);
