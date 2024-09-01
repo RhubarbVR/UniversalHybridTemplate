@@ -166,10 +166,10 @@ internal class Program
 						File.Delete(newPath);
 					}
 				}
+				Console.Write($"File Rename {Path.GetFullPath(Path.Combine(_mainPath, item))} {newPath}  start:{start} end:{end}");
 				if (!newPath.StartsWith(Path.GetFullPath(_mainPath))) {
 					throw new Exception("Tried to put data where it shouldn't go");
 				}
-				Console.Write($"File Rename {Path.GetFullPath(Path.Combine(_mainPath, item))} {newPath}");
 				File.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
 			catch (Exception ex) {
@@ -191,10 +191,10 @@ internal class Program
 						Directory.Delete(newPath, true);
 					}
 				}
+				Console.Write($"Dir Rename {Path.GetFullPath(Path.Combine(_mainPath, item))} {newPath} start:{start} end:{end}");
 				if (!newPath.StartsWith(Path.GetFullPath(_mainPath))) {
 					throw new Exception("Tried to put data where it shouldn't go");
 				}
-				Console.Write($"Dir Rename {Path.GetFullPath(Path.Combine(_mainPath, item))} {newPath}");
 				Directory.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
 			catch (Exception ex) {
