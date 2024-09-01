@@ -169,7 +169,7 @@ internal class Program
 				if (!newPath.StartsWith(Path.GetFullPath(_mainPath))) {
 					throw new Exception("Tried to put data where it shouldn't go");
 				}
-				Console.Write($"File Rename {Path.GetFullPath(Path.Combine(_mainPath, item))} {newPath}")
+				Console.Write($"File Rename {Path.GetFullPath(Path.Combine(_mainPath, item))} {newPath}");
 				File.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
 			catch (Exception ex) {
