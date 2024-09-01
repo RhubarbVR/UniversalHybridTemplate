@@ -82,14 +82,14 @@ internal class Program
 		foreach (var file in Directory.GetFiles(currentDir)) {
 			var partFile = Path.GetRelativePath(Path.GetFullPath(baseDir), Path.GetFullPath(file));
 			allFiles.Add(partFile);
-			if (Path.GetFileNameWithoutExtension(partFile).Contains(onlyWith)) {
+			if (Path.GetFileName(partFile).Contains(onlyWith)) {
 				renameFiles.Add(partFile);
 			}
 		}
 		foreach (var folder in Directory.GetDirectories(currentDir)) {
 			LoadAllFilesFolders(baseDir, Path.GetFullPath(folder), onlyWith, allFiles, renameFiles, renameFolders);
 			var partFolder = Path.GetRelativePath(Path.GetFullPath(baseDir), Path.GetFullPath(folder));
-			if (Path.GetFileName(partFolder).Contains(onlyWith)) {
+			if (Path.GetDirectoryName(partFolder).Contains(onlyWith)) {
 				renameFolders.Add(partFolder);
 			}
 		}
@@ -122,6 +122,13 @@ internal class Program
 		var renameFiles = new List<string>();
 		var renameFolders = new List<string>();
 		LoadAllFilesFolders(Path.GetFullPath(_mainPath), Path.GetFullPath(_mainPath), oldName, allFiles, renameFiles, renameFolders);
+
+		foreach (var file in renameFiles) {
+			Console.WriteLine("RenameFile:" + file);
+		}
+		foreach (var folder in renameFolders) {
+			Console.WriteLine("RenameFolder:" + folder);
+		}
 
 		foreach (var item in allFiles) {
 			try {
