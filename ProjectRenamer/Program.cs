@@ -10,7 +10,8 @@ internal class Program
 {
 	static string _mainPath;
 	static ConsoleColor _color;
-	static async Task Main(string[] args) {
+
+	static void Main(string[] args) {
 		_color = Console.ForegroundColor;
 	Start:
 		Console.Clear();
@@ -37,7 +38,7 @@ internal class Program
 					goto Error;
 				}
 			}
-			await RunFullRename(newName);
+			RunFullRename(newName);
 		}
 		catch (Exception ex) {
 			Console.WriteLine($"Error: {ex.Message}");
@@ -117,7 +118,7 @@ internal class Program
 		return false;
 	}
 
-	public static async Task RunRenamePart(string newName, string oldName) {
+	public static void RunRenamePart(string newName, string oldName) {
 		var allFiles = new List<string>();
 		var renameFiles = new List<string>();
 		var renameFolders = new List<string>();
@@ -136,7 +137,7 @@ internal class Program
 				if (IsBinary(path)) {
 					continue;
 				}
-				await File.WriteAllTextAsync(path, (await File.ReadAllTextAsync(path)).Replace(oldName, newName));
+				File.WriteAllText(path, File.ReadAllText(path).Replace(oldName, newName));
 			}
 			catch (Exception ex) {
 				Console.ForegroundColor = ConsoleColor.Red;
@@ -194,10 +195,10 @@ internal class Program
 		}
 	}
 
-	public static async Task RunFullRename(string newName) {
-		await RunRenamePart(newName, "Universal_Hybrid_Template".ToUpper());
-		await RunRenamePart(newName.ToLower(), "UniversalHybridTemplate".ToLower());
-		await RunRenamePart(newName.ToUpper(), "UniversalHybridTemplate".ToUpper());
-		await RunRenamePart(newName, "UniversalHybridTemplate");
+	public static void RunFullRename(string newName) {
+		RunRenamePart(newName, "Universal_Hybrid_Template".ToUpper());
+		RunRenamePart(newName.ToLower(), "UniversalHybridTemplate".ToLower());
+		RunRenamePart(newName.ToUpper(), "UniversalHybridTemplate".ToUpper());
+		RunRenamePart(newName, "UniversalHybridTemplate");
 	}
 }
