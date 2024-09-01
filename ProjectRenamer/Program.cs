@@ -157,8 +157,7 @@ internal class Program
 
 		foreach (var item in renameFiles) {
 			var start = Path.GetFullPath(Path.Combine(_mainPath, item, ".."));
-			start = start.Remove(start.Length - 1);
-			var end = Path.GetFullPath(item).Substring(start.Length + 1);
+			var end = Path.GetRelativePath(start, Path.GetFullPath(item));
 			var newPath = Path.GetFullPath(Path.Combine(_mainPath, start, end.Replace(oldName, newName)));
 			try {
 				if (File.Exists(newPath)) {
@@ -183,8 +182,7 @@ internal class Program
 
 		foreach (var item in renameFolders) {
 			var start = Path.GetFullPath(Path.Combine(_mainPath, item, ".."));
-			start = start.Remove(start.Length - 1);
-			var end = Path.GetFullPath(item).Substring(start.Length + 1);
+			var end = Path.GetRelativePath(start, Path.GetFullPath(item));
 			var newPath = Path.GetFullPath(Path.Combine(_mainPath, start, end.Replace(oldName, newName)));
 			try {
 				if (Directory.Exists(newPath)) {
