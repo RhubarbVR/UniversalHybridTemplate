@@ -142,10 +142,10 @@ internal class Program
 		foreach (var item in renameFiles) {
 			var start = Path.GetDirectoryName(item);
 			var end = item.Substring(start.Length);
-			if (end.StartsWith('/') || end.EndsWith('\\')) {
+			if (end.StartsWith('/') || end.StartsWith('\\')) {
 				end = end.Remove(1);
 			}
-			var newPath = Path.Combine(_mainPath, start, end.Replace(oldName, newName));
+			var newPath = Path.GetFullPath(Path.Combine(_mainPath, start, end.Replace(oldName, newName)));
 			try {
 				if (File.Exists(newPath)) {
 					newPath = Path.GetFullPath(newPath);
@@ -153,7 +153,7 @@ internal class Program
 						File.Delete(newPath);
 					}
 				}
-				File.Move(Path.Combine(_mainPath, item), newPath);
+				File.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
 			catch (Exception ex) {
 				Console.ForegroundColor = ConsoleColor.Red;
@@ -168,7 +168,7 @@ internal class Program
 			if (end.StartsWith('/') || end.EndsWith('\\')) {
 				end = end.Remove(1);
 			}
-			var newPath = Path.Combine(_mainPath, start, end.Replace(oldName, newName));
+			var newPath = Path.GetFullPath(Path.Combine(_mainPath, start, end.Replace(oldName, newName)));
 			try {
 				if (Directory.Exists(newPath)) {
 					newPath = Path.GetFullPath(newPath);
@@ -176,7 +176,7 @@ internal class Program
 						Directory.Delete(newPath, true);
 					}
 				}
-				Directory.Move(Path.Combine(_mainPath, item), newPath);
+				Directory.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
 			catch (Exception ex) {
 				Console.ForegroundColor = ConsoleColor.Red;
