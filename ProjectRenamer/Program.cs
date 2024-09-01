@@ -70,6 +70,12 @@ internal class Program
 		if (currentDir.EndsWith(".git")) {
 			return;
 		}
+		if (Path.GetFileNameWithoutExtension(currentDir) == "obj") {
+			return;
+		}
+		if (Path.GetFileNameWithoutExtension(currentDir) == "bin") {
+			return;
+		}
 		foreach (var file in Directory.GetFiles(currentDir)) {
 			var partFile = Path.GetRelativePath(Path.GetFullPath(baseDir), Path.GetFullPath(file));
 			allFiles.Add(partFile);
