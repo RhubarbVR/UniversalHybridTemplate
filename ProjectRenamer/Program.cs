@@ -41,6 +41,8 @@ internal class Program
 		}
 		catch (Exception ex) {
 			Console.WriteLine($"Error: {ex.Message}");
+			Console.WriteLine(ex.ToString());
+			Console.ReadLine();
 			throw;
 		}
 	}
@@ -139,10 +141,13 @@ internal class Program
 		renameFolders = [.. renameFolders.OrderByDescending(x => x.Length)];
 		foreach (var item in renameFiles) {
 			var start = Path.GetDirectoryName(item);
-			var end = item.Substring(start.Length + 1);
+			var end = item.Substring(start.Length);
+			if (end.StartsWith('/') || end.EndsWith('\\')) {
+				end = end.Remove(1);
+			}
 			var newPath = Path.Combine(start, end.Replace(oldName, newName));
 			try {
-				File.Copy(item, newPath);
+				File.Move(item, newPath);
 			}
 			catch (Exception ex) {
 				Console.ForegroundColor = ConsoleColor.Red;
