@@ -1,4 +1,6 @@
-﻿<Router AppAssembly="@typeof(MainLayout).Assembly">
+﻿﻿<FluentDesignTheme StorageName="theme" />
+
+<Router AppAssembly="@typeof(MainLayout).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

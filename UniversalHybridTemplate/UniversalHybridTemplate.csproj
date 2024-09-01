@@ -63,6 +63,9 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.82" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
         <PackageReference Include="System.Text.Json" Version="8.0.4" />
+
+		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.*-* " />
+		<PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.*-* " />
     </ItemGroup>
 
     <ItemGroup>
