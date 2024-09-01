@@ -156,7 +156,7 @@ internal class Program
 		}
 
 		foreach (var item in renameFiles) {
-			var start = Path.GetFullPath(Path.Combine(item, ".."));
+			var start = Path.GetFullPath(Path.Combine(_mainPath, item, ".."));
 			var end = Path.GetFullPath(item).Substring(start.Length);
 			var newPath = Path.GetFullPath(Path.Combine(_mainPath, start, end.Replace(oldName, newName)));
 			try {
@@ -169,18 +169,19 @@ internal class Program
 				if (!newPath.StartsWith(Path.GetFullPath(_mainPath))) {
 					throw new Exception("Tried to put data where it shouldn't go");
 				}
+				Console.Write($"File Rename {Path.GetFullPath(Path.Combine(_mainPath, item))} {newPath}")
 				File.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
 			catch (Exception ex) {
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine($"Failed to Do Copy for {item} {ex.Message}");
+				Console.WriteLine($"Failed to Do file move for {item} {ex.Message}");
 				Console.ForegroundColor = _color;
 
 			}
 		}
 
 		foreach (var item in renameFolders) {
-			var start = Path.GetFullPath(Path.Combine(item, ".."));
+			var start = Path.GetFullPath(Path.Combine(_mainPath, item, ".."));
 			var end = Path.GetFullPath(item).Substring(start.Length);
 			var newPath = Path.GetFullPath(Path.Combine(_mainPath, start, end.Replace(oldName, newName)));
 			try {
@@ -193,6 +194,7 @@ internal class Program
 				if (!newPath.StartsWith(Path.GetFullPath(_mainPath))) {
 					throw new Exception("Tried to put data where it shouldn't go");
 				}
+				Console.Write($"Dir Rename {Path.GetFullPath(Path.Combine(_mainPath, item))} {newPath}");
 				Directory.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
 			catch (Exception ex) {
