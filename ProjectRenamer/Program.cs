@@ -96,7 +96,7 @@ internal class Program
 		foreach (var folder in Directory.GetDirectories(currentDir)) {
 			LoadAllFilesFolders(baseDir, Path.GetFullPath(folder), onlyWith, allFiles, renameFiles, renameFolders);
 			var partFolder = Path.GetRelativePath(Path.GetFullPath(baseDir), Path.GetFullPath(folder));
-			if (Path.GetDirectoryName(partFolder).Contains(onlyWith)) {
+			if (Path.GetFileName(partFolder).Contains(onlyWith)) {
 				renameFolders.Add(partFolder);
 			}
 		}
@@ -166,6 +166,9 @@ internal class Program
 						File.Delete(newPath);
 					}
 				}
+				if (!newPath.StartsWith(Path.GetFullPath(_mainPath))) {
+					throw new Exception("Tried to put data where it shouldn't go");
+				}
 				File.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
 			catch (Exception ex) {
@@ -186,6 +189,9 @@ internal class Program
 					if (newPath.StartsWith(_mainPath)) {
 						Directory.Delete(newPath, true);
 					}
+				}
+				if (!newPath.StartsWith(Path.GetFullPath(_mainPath))) {
+					throw new Exception("Tried to put data where it shouldn't go");
 				}
 				Directory.Move(Path.GetFullPath(Path.Combine(_mainPath, item)), newPath);
 			}
