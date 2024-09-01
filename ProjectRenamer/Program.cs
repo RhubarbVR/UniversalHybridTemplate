@@ -139,16 +139,21 @@ internal class Program
 		}
 		renameFiles = [.. renameFiles.OrderByDescending(x => x.Length)];
 		renameFolders = [.. renameFolders.OrderByDescending(x => x.Length)];
-		foreach (var sub in renameFiles) {
-			var item = Path.Combine(_mainPath, sub);
+		foreach (var item in renameFiles) {
 			var start = Path.GetDirectoryName(item);
 			var end = item.Substring(start.Length);
 			if (end.StartsWith('/') || end.EndsWith('\\')) {
 				end = end.Remove(1);
 			}
-			var newPath = Path.Combine(start, end.Replace(oldName, newName));
+			var newPath = Path.Combine(_mainPath, start, end.Replace(oldName, newName));
 			try {
-				File.Move(item, newPath);
+				if (File.Exists(newPath)) {
+					newPath = Path.GetFullPath(newPath);
+					if (newPath.StartsWith(_mainPath)) {
+						Directory.Delete(newPath);
+					}
+				}
+				File.Move(Path.Combine(_mainPath, item), newPath);
 			}
 			catch (Exception ex) {
 				Console.ForegroundColor = ConsoleColor.Red;
@@ -157,20 +162,25 @@ internal class Program
 
 			}
 		}
-		foreach (var sub in renameFolders) {
-			var item = Path.Combine(_mainPath, sub);
+		foreach (var item in renameFolders) {
 			var start = Path.GetDirectoryName(item);
 			var end = item.Substring(start.Length);
 			if (end.StartsWith('/') || end.EndsWith('\\')) {
 				end = end.Remove(1);
 			}
-			var newPath = Path.Combine(start, end.Replace(oldName, newName));
+			var newPath = Path.Combine(_mainPath, start, end.Replace(oldName, newName));
 			try {
-				Directory.Move(item, newPath);
+				if (Directory.Exists(newPath)) {
+					newPath = Path.GetFullPath(newPath);
+					if (newPath.StartsWith(_mainPath)) {
+						Directory.Delete(newPath);
+					}
+				}
+				Directory.Move(Path.Combine(_mainPath, item), newPath);
 			}
 			catch (Exception ex) {
 				Console.ForegroundColor = ConsoleColor.Red;
-				Console.WriteLine($"Failed to Do Move for {item} {ex.Message}");
+				Console.WriteLine($"Failed to Do Dir Move for {item} {ex.Message}");
 				Console.ForegroundColor = _color;
 			}
 		}
