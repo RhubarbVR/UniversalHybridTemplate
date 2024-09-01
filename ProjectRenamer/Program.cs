@@ -150,7 +150,7 @@ internal class Program
 				if (File.Exists(newPath)) {
 					newPath = Path.GetFullPath(newPath);
 					if (newPath.StartsWith(_mainPath)) {
-						Directory.Delete(newPath, true);
+						File.Delete(newPath);
 					}
 				}
 				File.Move(Path.Combine(_mainPath, item), newPath);
