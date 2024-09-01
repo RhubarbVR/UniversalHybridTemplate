@@ -170,11 +170,9 @@ internal class Program
 	}
 
 	public static async Task RunFullRename(string newName) {
-		await Task.WhenAll(
-			Task.Run(async () => await RunRenamePart(newName, "Universal_Hybrid_Template".ToUpper())),
-			Task.Run(async () => await RunRenamePart(newName.ToLower(), "UniversalHybridTemplate".ToLower())),
-			Task.Run(async () => await RunRenamePart(newName.ToUpper(), "UniversalHybridTemplate".ToUpper())),
-			Task.Run(async () => await RunRenamePart(newName, "UniversalHybridTemplate"))
-		);
+		await RunRenamePart(newName, "Universal_Hybrid_Template".ToUpper());
+		await RunRenamePart(newName.ToLower(), "UniversalHybridTemplate".ToLower());
+		await RunRenamePart(newName.ToUpper(), "UniversalHybridTemplate".ToUpper());
+		await RunRenamePart(newName, "UniversalHybridTemplate");
 	}
 }
