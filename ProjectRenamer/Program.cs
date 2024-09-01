@@ -138,13 +138,19 @@ internal class Program
 			var start = Path.GetDirectoryName(item);
 			var end = item.Substring(start.Length + 1);
 			var newPath = Path.Combine(start, end.Replace(oldName, newName));
-			File.Copy(item, newPath);
+			try {
+				File.Copy(item, newPath);
+			}
+			catch { }
 		}
 		foreach (var item in renameFolders) {
 			var start = Path.GetDirectoryName(item);
 			var end = item.Substring(start.Length + 1);
 			var newPath = Path.Combine(start, end.Replace(oldName, newName));
-			Directory.Move(item, newPath);
+			try {
+				Directory.Move(item, newPath);
+			}
+			catch { }
 		}
 	}
 
