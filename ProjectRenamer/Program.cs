@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Formats.Tar;
 using System.Management;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -61,11 +62,16 @@ internal class Program
 
 	public static string FindUniversalHybridTemplateSLN() {
 		var targetPath = Path.GetFullPath("./");
+		var max = 1000;
 		while (targetPath is not null) {
 			if (File.Exists(Path.Combine(targetPath, "UniversalHybridTemplate.sln"))) {
 				return targetPath;
 			}
-			targetPath = Path.Combine(targetPath, "..");
+			targetPath = Path.GetFullPath(Path.Combine(targetPath, ".."));
+			max--;
+			if (max <= 0) {
+				throw new Exception("Failed to find UniversalHybridTemplate.sln");
+			}
 		}
 		throw new Exception("Failed to find UniversalHybridTemplate.sln");
 	}
@@ -148,8 +154,8 @@ internal class Program
 		renameFiles = [.. renameFiles.OrderByDescending(x => x.Length)];
 		renameFolders = [.. renameFolders.OrderByDescending(x => x.Length)];
 		foreach (var item in renameFiles) {
-			var start = Path.Combine(item, "..");
-			var end = item.Substring(start.Length);
+			var start = Path.GetFullPath(Path.Combine(item, ".."));
+			var end = start.Substring(start.Length);
 			if (end.StartsWith('/') || end.StartsWith('\\')) {
 				end = end.Remove(0);
 			}
@@ -172,8 +178,8 @@ internal class Program
 		}
 
 		foreach (var item in renameFolders) {
-			var start = Path.Combine(item, "..");
-			var end = item.Substring(start.Length);
+			var start = Path.GetFullPath(Path.Combine(item, ".."));
+			var end = start.Substring(start.Length);
 			if (end.StartsWith('/') || end.EndsWith('\\')) {
 				end = end.Remove(0);
 			}
