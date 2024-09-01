@@ -130,6 +130,9 @@ internal class Program
 		var renameFolders = new List<string>();
 		LoadAllFilesFolders(Path.GetFullPath(_mainPath), Path.GetFullPath(_mainPath), oldName, allFiles, renameFiles, renameFolders);
 
+		renameFiles = [.. renameFiles.OrderByDescending(x => x.Length)];
+		renameFolders = [.. renameFolders.OrderByDescending(x => x.Length)];
+
 		foreach (var file in renameFiles) {
 			Console.WriteLine("RenameFile:" + file);
 		}
@@ -151,14 +154,10 @@ internal class Program
 				Console.ForegroundColor = _color;
 			}
 		}
-		renameFiles = [.. renameFiles.OrderByDescending(x => x.Length)];
-		renameFolders = [.. renameFolders.OrderByDescending(x => x.Length)];
+
 		foreach (var item in renameFiles) {
 			var start = Path.GetFullPath(Path.Combine(item, ".."));
-			var end = start.Substring(start.Length);
-			if (end.StartsWith('/') || end.StartsWith('\\')) {
-				end = end.Remove(0);
-			}
+			var end = Path.GetFullPath(item).Substring(start.Length);
 			var newPath = Path.GetFullPath(Path.Combine(_mainPath, start, end.Replace(oldName, newName)));
 			try {
 				if (File.Exists(newPath)) {
@@ -179,10 +178,7 @@ internal class Program
 
 		foreach (var item in renameFolders) {
 			var start = Path.GetFullPath(Path.Combine(item, ".."));
-			var end = start.Substring(start.Length);
-			if (end.StartsWith('/') || end.EndsWith('\\')) {
-				end = end.Remove(0);
-			}
+			var end = Path.GetFullPath(item).Substring(start.Length);
 			var newPath = Path.GetFullPath(Path.Combine(_mainPath, start, end.Replace(oldName, newName)));
 			try {
 				if (Directory.Exists(newPath)) {
