@@ -173,7 +173,7 @@ internal class Program
 				if (Directory.Exists(newPath)) {
 					newPath = Path.GetFullPath(newPath);
 					if (newPath.StartsWith(_mainPath)) {
-						Directory.Delete(newPath);
+						Directory.Delete(newPath, true);
 					}
 				}
 				Directory.Move(Path.Combine(_mainPath, item), newPath);
