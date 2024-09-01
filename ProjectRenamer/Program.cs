@@ -139,7 +139,8 @@ internal class Program
 		}
 		renameFiles = [.. renameFiles.OrderByDescending(x => x.Length)];
 		renameFolders = [.. renameFolders.OrderByDescending(x => x.Length)];
-		foreach (var item in renameFiles) {
+		foreach (var sub in renameFiles) {
+			var item = Path.Combine(_mainPath, sub);
 			var start = Path.GetDirectoryName(item);
 			var end = item.Substring(start.Length);
 			if (end.StartsWith('/') || end.EndsWith('\\')) {
@@ -156,7 +157,8 @@ internal class Program
 
 			}
 		}
-		foreach (var item in renameFolders) {
+		foreach (var sub in renameFolders) {
+			var item = Path.Combine(_mainPath, sub);
 			var start = Path.GetDirectoryName(item);
 			var end = item.Substring(start.Length);
 			if (end.StartsWith('/') || end.EndsWith('\\')) {
