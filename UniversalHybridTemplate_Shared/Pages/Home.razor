@@ -32,6 +32,8 @@ Welcome to your new app From Shared.
     <FluentProgressRing />
 </FluentOverlay>
 
+<FluentButton OnClick="Test">Run Test</FluentButton>
+
 @code {
     bool visible = false;
     JustifyContent justification = JustifyContent.Center;
@@ -39,5 +41,12 @@ Welcome to your new app From Shared.
 
     protected void HandleOnClose()
     {
+    }
+
+    protected void Test()
+    {
+        Console.WriteLine("Start");
+
+        Console.WriteLine("Done");
     }
 }
