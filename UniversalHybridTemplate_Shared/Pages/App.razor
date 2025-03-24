@@ -1,11 +1,21 @@
 @page "/"
+@using UniversalSystemCalls;
 @inject IJSRuntime JsRuntime
 
 <PageTitle>UniversalHybridTemplate</PageTitle>
+<FluentDesignTheme StorageName="theme" @bind-CustomColor="@Color" @bind-Mode="@Mode" />
 
-<FluentButton Appearance="Appearance.Accent" OnClick="ApplyAccentColor">Hi </FluentButton>
+<FluentButton Appearance="Appearance.Accent" OnClick="ToggleSystemColor">ToggleSystemColor </FluentButton>
 
-<FluentGrid Justify="JustifyContent.Center" >
+<p>System Caller @(SystemCaller.SystemCallName)</p>
+
+<p>Supported APIs</p>
+@foreach (var item in SystemCaller.GetSupportedApis())
+{
+	<p>@(item.ToString())</p>
+}
+
+<FluentGrid Justify="JustifyContent.Center">
 	<FluentGridItem>
 		<FluentCalendar DisabledDateFunc="@DisabledDay" @bind-Value="@SelectedDay" @bind-PickerMonth="@PickerDay" Style="height: 250px;" />
 		<p>Selected @(SelectedDay?.ToString("yyyy-MM-dd"))</p>
@@ -45,7 +55,11 @@
 	<FluentProgress Min="0" Max="100" Value="75"></FluentProgress>
 	<FluentProgress></FluentProgress>
 </div>
+
 @code {
+
+	public DesignThemeModes Mode { get; set; }
+	public string Color { get; set; }
 
 	bool value1 = true;
 	bool value2 = true;
@@ -62,9 +76,20 @@
 	private bool DisableMonth(DateTime date) => date.Month == 3 || date.Month == 8;
 	private bool DisableYear(DateTime date) => date.Year == 2026 || date.Year == 2027;
 
-	async Task ApplyAccentColor()
+	async Task ToggleSystemColor()
 	{
-		Console.WriteLine("Trains");
+		var color = await SystemCaller.GetUserAccentColorAsync();
+		Console.WriteLine("OS Color " + color);
 
+		if (Mode == DesignThemeModes.System)
+		{
+			Mode = DesignThemeModes.Light;
+			Color = SystemColor.Green.ToHexString();
+		}
+		else
+		{
+			Mode = DesignThemeModes.System;
+			Color = color.ToHexString();
+		}
 	}
 }

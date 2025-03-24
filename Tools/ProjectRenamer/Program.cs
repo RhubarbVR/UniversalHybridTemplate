@@ -1,7 +1,4 @@
 using System.Diagnostics;
-using System.Formats.Tar;
-using System.Management;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -9,10 +6,10 @@ namespace ProjectRenamer;
 
 internal class Program
 {
-	static string _mainPath;
-	static ConsoleColor _color;
+	private static string _mainPath;
+	private static ConsoleColor _color;
 
-	static void Main(string[] args) {
+	private static void Main(string[] args) {
 		_color = Console.ForegroundColor;
 	Start:
 		Console.Clear();
@@ -44,13 +41,13 @@ internal class Program
 		catch (Exception ex) {
 			Console.WriteLine($"Error: {ex.Message}");
 			Console.WriteLine(ex.ToString());
-			Console.ReadLine();
+			var unused = Console.ReadLine();
 			throw;
 		}
 	}
 
 	[SupportedOSPlatform("Windows")]
-	static bool IsVisualStudioOpen() {
+	private static bool IsVisualStudioOpen() {
 		var processes = Process.GetProcessesByName("devenv");
 		foreach (var process in processes) {
 			return true;

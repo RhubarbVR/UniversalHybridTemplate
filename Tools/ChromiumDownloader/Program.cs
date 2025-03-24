@@ -19,10 +19,10 @@ internal class Program
 		_x86,
 	}
 
-	private static readonly HttpClient _client = new ();
+	private static readonly HttpClient _client = new();
 	private const string CHROMIUM_BASE_URL = "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/";
 
-	static string ArcStringer(OS oS, Architecture architecture) {
+	private static string ArcStringer(OS oS, Architecture architecture) {
 		if (oS == OS.Win && architecture == Architecture._x86) {
 			return "Win";
 		}
@@ -36,7 +36,7 @@ internal class Program
 		return oS.ToString() + architecture.ToString();
 	}
 
-	static async Task<string> GetLatestBuild(OS os, Architecture arc) {
+	private static async Task<string> GetLatestBuild(OS os, Architecture arc) {
 		Console.WriteLine($"Fetching latest Chromium build number for {os}{arc}...");
 		var LatestUrl = $"{CHROMIUM_BASE_URL}{ArcStringer(os, arc)}%2FLAST_CHANGE?alt=media";
 		var latestBuild = await _client.GetStringAsync(LatestUrl);
@@ -44,7 +44,7 @@ internal class Program
 		return latestBuild;
 	}
 
-	static async Task<(string, string)> DownloadBuild(OS os, Architecture arc, string OutputFile = null) {
+	private static async Task<(string, string)> DownloadBuild(OS os, Architecture arc, string OutputFile = null) {
 		OutputFile ??= $"chrome-{os}{arc}.zip";
 		var latestBuild = await GetLatestBuild(os, arc);
 		try {
@@ -65,7 +65,7 @@ internal class Program
 	}
 	private static readonly char[] _spinner = ['|', '/', '-', '\\'];
 
-	static async Task LoadingSpinner(List<Task> tasksToWaitOn, string Msg) {
+	private static async Task LoadingSpinner(List<Task> tasksToWaitOn, string Msg) {
 		var i = 0;
 		while (tasksToWaitOn.Count > 0) {
 			Console.Write($"\r{Msg}... {_spinner[i]}");
@@ -73,14 +73,14 @@ internal class Program
 			var delayTask = Task.Delay(100);
 			tasksToWaitOn.Add(delayTask);
 			var done = await Task.WhenAny(tasksToWaitOn);
-			tasksToWaitOn.Remove(delayTask);
+			var unused1 = tasksToWaitOn.Remove(delayTask);
 			if (done == delayTask) {
 				continue;
 			}
-			tasksToWaitOn.Remove(done);
+			var unused = tasksToWaitOn.Remove(done);
 		}
 	}
-	static async Task GetChromiums(string targetFolder) {
+	private static async Task GetChromiums(string targetFolder) {
 		if (!Directory.Exists(targetFolder)) {
 			throw new Exception(targetFolder + " does not exist");
 		}
@@ -119,11 +119,11 @@ internal class Program
 		Console.WriteLine("\nAll done");
 
 	}
-	static Task ExtractZipAsync(string zipFilePath, string extractPath) {
+	private static Task ExtractZipAsync(string zipFilePath, string extractPath) {
 		return Task.Run(() => ZipFile.ExtractToDirectory(zipFilePath, extractPath, true));
 	}
 
-	static string FindSLN() {
+	private static string FindSLN() {
 		var dir = new DirectoryInfo(Directory.GetCurrentDirectory());
 		while (dir != null) {
 			var sln = dir.GetFiles("UniversalHybridTemplate.sln").FirstOrDefault();
@@ -135,8 +135,8 @@ internal class Program
 		return null;
 	}
 
-	static async Task Main() {
-		var sln =  FindSLN();
+	private static async Task Main() {
+		var sln = FindSLN();
 		if (sln == null) {
 			Console.WriteLine("Could not find UniversalHybridTemplate.sln");
 			return;
@@ -144,7 +144,7 @@ internal class Program
 		sln = Path.GetFullPath(sln);
 		Console.WriteLine("Found UniversalHybridTemplate.sln at " + sln);
 		var target = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(sln), "UniversalHybridTemplate_UniversalPlatform", "Chromium"));
-		Directory.CreateDirectory(target);
+		var unused = Directory.CreateDirectory(target);
 		await GetChromiums(target);
 	}
 }

@@ -1,4 +1,6 @@
-using Microsoft.UI.Xaml;
+using UniversalHybridTemplate.Platforms.Windows;
+
+using UniversalSystemCalls;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -15,10 +17,13 @@ namespace UniversalHybridTemplate.WinUI
 		/// executed, and as such is the logical equivalent of main() or WinMain().
 		/// </summary>
 		public App() {
-			this.InitializeComponent();
+			SystemCaller.RegisterSystemCaller(new WindowsSystemCaller(this));
+			InitializeComponent();
 		}
 
-		protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+		protected override MauiApp CreateMauiApp() {
+			return MauiProgram.CreateMauiApp();
+		}
 	}
 
 }

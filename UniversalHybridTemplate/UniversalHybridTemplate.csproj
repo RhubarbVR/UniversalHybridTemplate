@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
 	<PropertyGroup>
 		<OutputName>UniversalHybridTemplate</OutputName>
@@ -79,6 +79,16 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\UniversalHybridTemplate_Shared\UniversalHybridTemplate_Shared.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Compile Update="Platforms\Android\AndoridSystemCaller.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	  <Compile Update="Platforms\iOS\IOSSystemCaller.cs">
+	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

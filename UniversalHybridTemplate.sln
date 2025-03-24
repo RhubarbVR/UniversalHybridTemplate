@@ -11,10 +11,25 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalHybridTemplate_UniversalPlatform", "UniversalHybridTemplate_UniversalPlatform\UniversalHybridTemplate_UniversalPlatform.csproj", "{2489A4E9-3737-4E3F-AC73-351B28DAAA23}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		Tools\ChromiumDownloader.bat = Tools\ChromiumDownloader.bat
+		Tools\RunRenamer.bat = Tools\RunRenamer.bat
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChromiumDownloader", "Tools\ChromiumDownloader\ChromiumDownloader.csproj", "{B4CE4A87-AEF8-E0DD-F0B9-5EEF494D3A57}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectRenamer", "Tools\ProjectRenamer\ProjectRenamer.csproj", "{EA0FCCB3-5199-98CF-6273-BEDFA10459A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniversalSystemCalls", "UniversalSystemCalls\UniversalSystemCalls.csproj", "{639ED63B-7978-4618-9A96-CA6C549F9198}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		ChromiumDownloader.bat = ChromiumDownloader.bat
+		RunRenamer.bat = RunRenamer.bat
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -132,6 +147,22 @@ Global
 		{EA0FCCB3-5199-98CF-6273-BEDFA10459A7}.Release|x64.Build.0 = Release|Any CPU
 		{EA0FCCB3-5199-98CF-6273-BEDFA10459A7}.Release|x86.ActiveCfg = Release|Any CPU
 		{EA0FCCB3-5199-98CF-6273-BEDFA10459A7}.Release|x86.Build.0 = Release|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Debug|x64.Build.0 = Debug|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Debug|x86.Build.0 = Debug|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Release|Any CPU.Build.0 = Release|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Release|ARM64.Build.0 = Release|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Release|x64.ActiveCfg = Release|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Release|x64.Build.0 = Release|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Release|x86.ActiveCfg = Release|Any CPU
+		{639ED63B-7978-4618-9A96-CA6C549F9198}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

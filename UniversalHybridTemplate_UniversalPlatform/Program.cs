@@ -2,10 +2,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace UniversalHybridTemplate_UniversalPlatform;
@@ -59,7 +56,7 @@ public unsafe static partial class Windows
 		public UIntPtr PeakJobMemoryUsed;
 	}
 
-	const int JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x2000;
+	private const int JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE = 0x2000;
 
 	public static void KillOnCloseWindows(this Process process) {
 		var jobHandle = CreateJobObjectA(IntPtr.Zero, IntPtr.Zero);
@@ -68,8 +65,8 @@ public unsafe static partial class Windows
 				LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE
 			}
 		};
-		SetInformationJobObject(jobHandle, 9, ref info, (uint)Marshal.SizeOf(info));
-		AssignProcessToJobObject(jobHandle, process.Handle);
+		var unused1 = SetInformationJobObject(jobHandle, 9, ref info, (uint)Marshal.SizeOf(info));
+		var unused = AssignProcessToJobObject(jobHandle, process.Handle);
 	}
 }
 
@@ -109,7 +106,7 @@ public class Program
 			if (IsStarted) {
 				return;
 			}
-			await _start.Task.WaitAsync(cancellationToken);
+			var unused = await _start.Task.WaitAsync(cancellationToken);
 		}
 
 		public volatile bool IsStarted;
@@ -128,11 +125,11 @@ public class Program
 				var builder = WebApplication.CreateBuilder([]);
 
 				// Add services to the container.
-				builder.Services.AddRazorPages();
-				builder.Services.AddServerSideBlazor();
-				builder.Services.AddFluentUIComponents();
+				var unused8 = builder.Services.AddRazorPages();
+				var unused7 = builder.Services.AddServerSideBlazor();
+				var unused6 = builder.Services.AddFluentUIComponents();
 
-				builder.WebHost.ConfigureKestrel(configureApp => {
+				var unused5 = builder.WebHost.ConfigureKestrel(configureApp => {
 					configureApp.ListenLocalhost(Port);
 				});
 
@@ -140,16 +137,16 @@ public class Program
 
 				// Configure the HTTP request pipeline.
 				if (!WebApplication.Environment.IsDevelopment()) {
-					WebApplication.UseExceptionHandler("/Error");
+					var unused4 = WebApplication.UseExceptionHandler("/Error");
 				}
 
 
-				WebApplication.UseStaticFiles();
+				var unused3 = WebApplication.UseStaticFiles();
 
-				WebApplication.UseRouting();
+				var unused2 = WebApplication.UseRouting();
 
-				WebApplication.MapBlazorHub();
-				WebApplication.MapFallbackToPage("/_Host");
+				var unused1 = WebApplication.MapBlazorHub();
+				var unused = WebApplication.MapFallbackToPage("/_Host");
 
 				await WebApplication.StartAsync(cancellationToken);
 				IsStarted = true;
@@ -164,7 +161,7 @@ public class Program
 		}
 
 		public void Dispose() {
-			Task.Run(async () => await DisposeAsync());
+			var unused = Task.Run(async () => await DisposeAsync());
 		}
 
 		public async ValueTask DisposeAsync() {
@@ -194,20 +191,16 @@ public class Program
 		var exePath = GetChromiumPath();
 		Console.WriteLine("Opening browser at " + url + " runner is " + exePath);
 		var args = "--app=" + url;
-		Process process;
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-			process = Process.Start(new ProcessStartInfo {
+		var process = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX)
+			? Process.Start(new ProcessStartInfo {
 				FileName = exePath,
 				Arguments = args,
 				UseShellExecute = true,
 
-			});
-		}
-		else {
-			throw new Exception("Unsupported OS");
-		}
+			})
+			: throw new Exception("Unsupported OS");
 		{
-			Process processe = Process.GetCurrentProcess();
+			var processe = Process.GetCurrentProcess();
 			processe.EnableRaisingEvents = true;
 			processe.Exited += (sender, e) => {
 				process?.Kill();
@@ -288,14 +281,13 @@ public class Program
 
 
 	public static async Task Main(string[] args) {
+		UniversalSystemCalls.SystemCaller.SetUpDefaultSystemCaller();
 		var server = new Server();
 		server.Run();
 		await server.WaitForStartAsync();
 		Console.WriteLine($"Server running on port {server.Port}");
 		Console.WriteLine("Enter to stop the server");
-		var process = OpenAppBrowser(new Uri("http://localhost:" + server.Port), () => {
-			server.CancellationTokenSource.Cancel();
-		});
+		var process = OpenAppBrowser(new Uri("http://localhost:" + server.Port), server.CancellationTokenSource.Cancel);
 		await process.WaitForExitAsync(server.CancellationTokenSource.Token);
 		server.CancellationTokenSource.Cancel();
 		await server.DisposeAsync();

@@ -1,12 +1,25 @@
 # Remove the line below if you want to inherit .editorconfig settings from higher directories
 
 #### Core EditorConfig Options ####
+root = true
+
+### All files
+[*]
+# Force charset utf-8
+charset = utf-8
+# Indentation
+indent_style = tab
+indent_size = 4
+# line breaks and whitespace
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
 
 # Json files
 [*.json]
 # Indentation and spacing
 indent_size = 2
-indent_style = space
+indent_style = tab
 tab_width = 2
 
 # C# files
@@ -14,12 +27,12 @@ tab_width = 2
 
 # Indentation and spacing
 indent_size = 4
-indent_style = space
+indent_style = tab
 tab_width = 4
 
 # New line preferences
-end_of_line = crlf
-insert_final_newline = false
+end_of_line = lf
+insert_final_newline = true
 
 #### .NET Coding Conventions ####
 
@@ -111,7 +124,7 @@ csharp_prefer_simple_using_statement = true:suggestion
 # Expression-level preferences
 csharp_prefer_simple_default_expression = true:warning
 csharp_style_deconstructed_variable_declaration = true:suggestion
-csharp_style_inlined_variable_declaration = true:warning
+csharp_style_inlined_variable_declaration = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:warning
 csharp_style_prefer_index_operator = false:warning
 csharp_style_prefer_range_operator = false:warning
@@ -261,6 +274,11 @@ csharp_style_prefer_method_group_conversion = true:silent
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_primary_constructors = true:suggestion
 csharp_prefer_system_threading_lock = true:suggestion
+csharp_style_allow_embedded_statements_on_same_line_experimental = true:silent
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true:silent
+csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true:silent
+csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true:silent
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true:silent
 
 # C++ files
 [*.{c++,cc,cpp,cxx,h,h++,hh,hpp,hxx,inl,ipp,tlh,tli}]
@@ -363,7 +381,7 @@ indent_style= tab
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
 indent_size = 4
-end_of_line = crlf
+end_of_line = lf
 dotnet_style_coalesce_expression = true:suggestion
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
 dotnet_style_null_propagation = true:suggestion
@@ -380,3 +398,19 @@ dotnet_style_prefer_compound_assignment = true:suggestion
 dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
 insert_final_newline = true
+dotnet_style_allow_multiple_blank_lines_experimental = true:silent
+dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
+
+
+
+### All files
+[*]
+# Force charset utf-8
+charset = utf-8
+# Indentation
+indent_style = tab
+indent_size = 4
+# line breaks and whitespace
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf

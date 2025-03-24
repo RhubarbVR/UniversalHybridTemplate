@@ -1,9 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-
 using Microsoft.Extensions.Logging;
 using Microsoft.FluentUI.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace UniversalHybridTemplate;
 
@@ -24,6 +20,7 @@ public static class MauiProgram
 		builder.Logging.AddDebug();
 #endif
 
+		UniversalSystemCalls.SystemCaller.SetUpDefaultSystemCaller();
 		return builder.Build();
 	}
 }
