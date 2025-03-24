@@ -1,0 +1,16 @@
+{
+	"short_name": "UniversalHybridTemplate",
+	"name": "UniversalHybridTemplate",
+	"icons": [
+		{
+			"src": "/_content/UniversalHybridTemplate_Shared/icon-192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		}
+	],
+	"start_url": ".",
+	"display": "standalone",
+	"theme_color": "#000000",
+	"background_color": "#ffffff",
+	"display_override": [ "window-controls-overlay" ]
+}

@@ -1,0 +1,1 @@
+dotnet run --project ./Tools/ChromiumDownloader/ChromiumDownloader.csproj

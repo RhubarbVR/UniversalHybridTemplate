@@ -1,0 +1,49 @@
+@page "/"
+@using UniversalHybridTemplate_UniversalPlatform;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+	Layout = "_Layout";
+}
+
+<component type="typeof(App)" render-mode="ServerPrerendered" />
+
+
+<script>
+		const observer = new MutationObserver(() => {
+		let dialog = document.getElementById('components-reconnect-modal');
+
+		if (dialog && dialog.shadowRoot) {
+			let shadowRoot = dialog.shadowRoot;
+
+			let dots = shadowRoot.querySelectorAll('.components-rejoining-animation div');
+			dots.forEach(dot => {
+				dot.style.border = '3px solid var(--accent-fill-rest)';
+			});
+
+			let reconnectDialog = shadowRoot.querySelector('.components-reconnect-dialog');
+			if (reconnectDialog) {
+				reconnectDialog.style.backgroundColor = "var(--neutral-fill-input-rest)";
+				reconnectDialog.style.maxWidth = "20rem";
+				reconnectDialog.style.width = "72%";
+			}
+
+			let retryButton = shadowRoot.querySelector("button");
+			if (retryButton) {
+				retryButton.style.backgroundColor = "var(--accent-base-color)";
+				retryButton.style.padding = "10px 20px";
+				retryButton.style.borderRadius = "1rem";
+				retryButton.style.cursor = "pointer";
+				retryButton.style.transition = "background-color 0.3s ease-in-out";
+
+				retryButton.addEventListener("mouseenter", () => {
+					retryButton.style.backgroundColor = "var(--accent-fill-hover)";
+				});
+				retryButton.addEventListener("mouseleave", () => {
+					retryButton.style.backgroundColor = "var(--accent-base-color)";
+				});
+			}
+		}
+	});
+
+	observer.observe(document.body, { childList: true, subtree: true });
+</script>

@@ -1,4 +1,4 @@
-﻿namespace UniversalHybridTemplate
+namespace UniversalHybridTemplate
 {
 	public partial class MainPage : ContentPage
 	{

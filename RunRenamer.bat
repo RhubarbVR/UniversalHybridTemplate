@@ -1,1 +1,1 @@
-dotnet run --project ./ProjectRenamer/ProjectRenamer.csproj
+dotnet run --project ./Tools/ProjectRenamer/ProjectRenamer.csproj
