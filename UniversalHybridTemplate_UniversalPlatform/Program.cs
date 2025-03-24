@@ -7,7 +7,7 @@ using Microsoft.FluentUI.AspNetCore.Components;
 
 namespace UniversalHybridTemplate_UniversalPlatform;
 
-public unsafe static partial class Windows
+internal unsafe static partial class Windows
 {
 	[LibraryImport("kernel32.dll")]
 	public static partial IntPtr CreateJobObjectA(IntPtr lpJobAttributes, IntPtr lpName);
@@ -281,6 +281,7 @@ public class Program
 
 
 	public static async Task Main(string[] args) {
+		var unused1= args ?? [];
 		UniversalSystemCalls.SystemCaller.SetUpDefaultSystemCaller();
 		var server = new Server();
 		server.Run();

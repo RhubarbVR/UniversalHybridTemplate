@@ -1,4 +1,4 @@
-﻿namespace UniversalSystemCalls;
+namespace UniversalSystemCalls;
 
 public sealed partial class UniversialLinuxSystemCall : ISystemCall
 {

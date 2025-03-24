@@ -10,6 +10,7 @@ internal class Program
 	private static ConsoleColor _color;
 
 	private static void Main(string[] args) {
+		var unused1 = args ?? [];
 		_color = Console.ForegroundColor;
 	Start:
 		Console.Clear();

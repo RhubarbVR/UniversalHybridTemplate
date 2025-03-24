@@ -1,4 +1,4 @@
-﻿namespace UniversalSystemCalls;
+namespace UniversalSystemCalls;
 
 public readonly struct SystemColor(byte r, byte g, byte b)
 {
