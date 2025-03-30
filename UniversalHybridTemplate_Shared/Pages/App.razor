@@ -7,6 +7,20 @@
 
 <FluentButton Appearance="Appearance.Accent" OnClick="ToggleSystemColor">ToggleSystemColor </FluentButton>
 
+<p>HasMultiWindowSupport: @(MultiWindowHandler.HasMultiWindowSupport)</p>
+
+@if (MultiWindowHandler.HasMultiWindowSupport)
+{
+	<FluentButton Appearance="Appearance.Accent" OnClick="OpenTestWindow">Open Test Window</FluentButton>
+	<FluentButton Appearance="Appearance.Accent" OnClick="ForceAllPagesToTestOther">Force All Pages To Test Other</FluentButton>
+
+	@foreach (var window in MultiWindowHandler.WindowHandles)
+	{
+		<p>Window: @(window.URL)</p>
+		<FluentButton Appearance="Appearance.Accent" OnClick="window.Close">Close</FluentButton>
+	}
+}
+
 <p>System Caller @(SystemCaller.SystemCallName)</p>
 
 <p>Supported APIs</p>
@@ -75,6 +89,21 @@
 	private bool DisabledDay(DateTime date) => date.Day == 3 || date.Day == 8 || date.Day == 20;
 	private bool DisableMonth(DateTime date) => date.Month == 3 || date.Month == 8;
 	private bool DisableYear(DateTime date) => date.Year == 2026 || date.Year == 2027;
+
+	async Task OpenTestWindow()
+	{
+		MultiWindowHandler.OpenWindowRelitive(new Uri("/TestOther", UriKind.Relative));
+		await Task.Delay(1000);
+		StateHasChanged();
+	}
+
+	void ForceAllPagesToTestOther()
+	{
+		foreach (var window in MultiWindowHandler.WindowHandles)
+		{
+			window.SetURI(new Uri("/TestOther", UriKind.Relative));
+		}
+	}
 
 	async Task ToggleSystemColor()
 	{

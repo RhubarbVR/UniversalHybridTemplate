@@ -1,3 +1,5 @@
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
 <FluentDesignTheme StorageName="theme" />
 
@@ -7,3 +9,33 @@
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
 </Router>
+
+@code {
+    public Window MauiWindow { get; private set; }
+
+    protected override void OnInitialized()
+    {
+        if (Application.Current is App myApp)
+        {
+            var uri = new Uri(NavigationManager.Uri);
+            var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+            var windowId = Guid.TryParse(query["Window_ID"], out var id) ? id : Guid.Empty;
+            MauiWindow = myApp.GetWindowFromID(windowId);
+        }
+        base.OnInitialized();
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await JS.InvokeVoidAsync("SetUp", DotNetObjectReference.Create(this));
+    }
+
+
+    [JSInvokable]
+    public void CloseWindow()
+    {
+        Application.Current.CloseWindow(MauiWindow);
+    }
+}

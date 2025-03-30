@@ -32,8 +32,15 @@
 		<a class="dismiss">🗙</a>
 	</div>
 
+	<script>
+		window.SetUp = (dotnetObject) => {
+			window.close = () => {
+				dotnetObject.invokeMethodAsync("CloseWindow");
+			};
+		};
+		
+	</script>
 	<script src="_framework/blazor.webview.js" autostart="false"></script>
-
 </body>
 
 </html>

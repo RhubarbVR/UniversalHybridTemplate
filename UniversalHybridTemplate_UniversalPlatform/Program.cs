@@ -2,8 +2,9 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-
 using Microsoft.FluentUI.AspNetCore.Components;
+
+using UniversalSystemCalls;
 
 namespace UniversalHybridTemplate_UniversalPlatform;
 
@@ -98,6 +99,7 @@ public class Program
 
 		private TaskCompletionSource<bool> _start = new();
 		public WebApplication WebApplication { get; private set; }
+
 		public async Task WaitForStartAsync() {
 			await WaitForStartAsync(CancellationToken.None);
 		}
@@ -172,11 +174,18 @@ public class Program
 			CancellationTokenSource.Dispose();
 			_start = null;
 		}
+
 	}
 
-	public static Process OpenAppBrowser(Uri url, Action onClose) {
+	public static Uri MainURI { get; private set; }
+
+	public static Process OpenAppBrowser(Uri url, bool isMain = false, Action onClose = null) {
 		if (url.Scheme is not "http" and not "https") {
 			return null;
+		}
+
+		if (isMain) {
+			MainURI = url;
 		}
 
 		if (Debugger.IsAttached) {
@@ -220,10 +229,12 @@ public class Program
 		}
 
 		process.EnableRaisingEvents = true;
-		process.Exited += Process_Exited;
+		if (onClose is not null) {
+			process.Exited += Process_Exited;
 
-		if (process.HasExited) {
-			Process_Exited(process, EventArgs.Empty);
+			if (process.HasExited) {
+				Process_Exited(process, EventArgs.Empty);
+			}
 		}
 		return process;
 	}
@@ -279,17 +290,38 @@ public class Program
 		}
 	}
 
+	public sealed class UniversialWindowHandler : IMultiWindowHandler
+	{
+		public bool HasSupport => true;
+
+		public Uri MainURI => Program.MainURI;
+
+		public void OpenWindowAtUri(Uri uri) {
+			OpenWindowAtUri(uri, false);
+		}
+
+		public Process OpenWindowAtUri(Uri uri, bool isMain = false, Action close = null) {
+			return OpenAppBrowser(uri, isMain, close);
+		}
+	}
+
+	private static readonly UniversialWindowHandler _universialWindowHandler = new();
 
 	public static async Task Main(string[] args) {
-		var unused1= args ?? [];
-		UniversalSystemCalls.SystemCaller.SetUpDefaultSystemCaller();
+		var unused1 = args ?? [];
+
+		IMultiWindowHandler.RegisterMultiWindowHandler(_universialWindowHandler);
+		SystemCaller.SetUpDefaultSystemCaller();
 		var server = new Server();
 		server.Run();
 		await server.WaitForStartAsync();
 		Console.WriteLine($"Server running on port {server.Port}");
 		Console.WriteLine("Enter to stop the server");
-		var process = OpenAppBrowser(new Uri("http://localhost:" + server.Port), server.CancellationTokenSource.Cancel);
-		await process.WaitForExitAsync(server.CancellationTokenSource.Token);
+		var process = _universialWindowHandler.OpenWindowAtUri(new Uri("http://localhost:" + server.Port), true, server.CancellationTokenSource.Cancel);
+		try {
+			await process.WaitForExitAsync(server.CancellationTokenSource.Token);
+		}
+		catch { }
 		server.CancellationTokenSource.Cancel();
 		await server.DisposeAsync();
 		process?.Kill();

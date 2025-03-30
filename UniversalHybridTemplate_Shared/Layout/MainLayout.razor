@@ -1,3 +1,41 @@
 @inherits LayoutComponentBase
-	
+@implements IDisposable
+@implements IWindowHandle
+@inject IJSRuntime JsRuntime
+@inject NavigationManager Navigation
+
 @Body
+
+@code {
+
+    public WindowHandle WindowHandle { get; set; }
+
+    public void SetURI(Uri uri)
+    {
+        Navigation.NavigateTo(uri.ToString());
+    }
+
+    public Uri GetUri()
+    {
+        return new Uri(Navigation.Uri);
+    }
+
+    public async Task Close()
+    {
+        await JsRuntime.InvokeVoidAsync("close");
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        WindowHandle = IMultiWindowHandler.CreateWindowHandle(this);
+        IMultiWindowHandler.RegisterWindowHandle(WindowHandle);
+    }
+
+    public void Dispose()
+    {
+        IMultiWindowHandler.HandleClose(WindowHandle);
+        WindowHandle = null;
+        GC.SuppressFinalize(this);
+    }
+}
