@@ -95,7 +95,7 @@ public static class MultiWindowHandler
 	{
 		get {
 			lock (_windowHandles) {
-				return _windowHandles.AsReadOnly();
+				return [.._windowHandles];
 			}
 		}
 	}
